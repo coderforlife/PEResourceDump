@@ -1,0 +1,3 @@
+[submodule "PE"]
+	path = PE
+	url = git@github.com:coderforlife/pe-file.git
