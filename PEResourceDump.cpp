@@ -41,7 +41,7 @@ bool dib2bmp(LPVOID *data, size_t *size) {
 	memmove(d + sizeof(BITMAPFILEHEADER), *data = d, *size);
 	// need to add bitmap header: type="BM", size and offset now include header
 	*size += sizeof(BITMAPFILEHEADER); off += sizeof(BITMAPFILEHEADER);
-	BITMAPFILEHEADER bmp = { 0x4D42, (WORD)*size, 0, 0, (DWORD)off };
+	BITMAPFILEHEADER bmp = { 0x4D42, (DWORD)*size, 0, 0, (DWORD)off };
 	memcpy(d, &bmp, sizeof(BITMAPFILEHEADER));
 	return true;
 }
