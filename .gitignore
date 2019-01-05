@@ -1,0 +1,23 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Examples and tests
+*.dll
+*.exe
+test*
+
+# Release and Debug Build
+Release/
+Debug/
+x64/
+.vs/
