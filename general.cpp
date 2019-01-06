@@ -84,7 +84,7 @@ std::wstring sanitizeFilename(std::wstring filename) {
 		L"LPT0", L"LPT1", L"LPT2", L"LPT3", L"LPT4", L"LPT5", L"LPT6", L"LPT7", L"LPT8", L"LPT9",
 	}};
 	std::wstring upper(filename);
-	std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+	std::transform(upper.begin(), upper.end(), upper.begin(), ::towupper);
 	if (contains(reserved, upper)) { filename = filename + L"_"; }
 	return filename;
 }
