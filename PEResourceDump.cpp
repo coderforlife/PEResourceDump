@@ -35,7 +35,22 @@ typedef bool(*dump_func)(const PE::Rsrc * const rsrc, resid type, resid name, ui
 
 /* Converts DIB image to BMP image */
 bool dib2bmp(LPVOID *data, size_t *size) {
+	// Get the offset to the pixel data, need to get the size of the header plus the size of the palette
 	size_t off = ((uint32_t*)*data)[0];
+	if (off == sizeof(BITMAPCOREHEADER)) {
+		BITMAPCOREHEADER* h = (BITMAPCOREHEADER*)*data;
+		if (h->bcBitCount < 16) { off += (1 << h->bcBitCount)*3; }
+	}
+	else {
+		BITMAPINFOHEADER* h = (BITMAPINFOHEADER*)*data;
+		if (off < 36) { if (h->biBitCount < 16) { off += (1 << h->biBitCount) * 3; } }
+		else if (h->biBitCount < 16) { off += ((h->biClrUsed == 0) ? (1 << h->biBitCount) : h->biClrUsed) * 4; }
+		else if (h->biBitCount == 16) { off += h->biClrUsed * 4; }
+		if (off == sizeof(BITMAPINFOHEADER)) {
+			if (h->biCompression == BI_BITFIELDS) { off += sizeof(DWORD) * 3; }
+			else if (h->biCompression == 6 /*BI_ALPHABITFIELDS*/) { off += sizeof(DWORD) * 4; }
+		}
+	}
 	BYTE *d = (BYTE*)realloc(*data, *size + sizeof(BITMAPFILEHEADER));
 	if (!d) { return false; }
 	memmove(d + sizeof(BITMAPFILEHEADER), *data = d, *size);
