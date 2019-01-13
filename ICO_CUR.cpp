@@ -123,7 +123,7 @@ bool extractICOIndividual(LPCWSTR type, LPCWSTR name, WORD lang, LPVOID *data, s
 
 	// some extra processing is required for cursors
 	if (type == RT_GROUP_CURSOR) {
-		if (entry.bWidth == 0) {
+		if (entry.bWidth == 0 || entry.bHeight == 0) {
 			entry.bHeight = (BYTE)(rtEntry->CUR.wHeight / 2);
 			entry.bWidth = (BYTE)(rtEntry->CUR.wWidth);
 			entry.bColorCount = 0;
@@ -181,7 +181,7 @@ bool extractICOGroup(LPCWSTR type, LPCWSTR name, WORD lang, LPVOID *data, size_t
 
 		// some extra processing is required for cursors
 		if (type == RT_CURSOR) {
-			if (entry.bWidth == 0) {
+			if (entry.bWidth == 0 || entry.bHeight == 0) {
 				entry.bHeight = (BYTE)(entries[i].CUR.wHeight / 2);
 				entry.bWidth = (BYTE)(entries[i].CUR.wWidth);
 				entry.bColorCount = 0;
